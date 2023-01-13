@@ -2,7 +2,7 @@ class UserLoginsController < ApplicationController
   skip_before_action :verify_authenticity_token
   include JsonWebToken
   def index
-    demo
+    
   end
 
   def create

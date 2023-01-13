@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  # before_action :authorize
   before_action :set_pro, only: [:show, :destroy,:update]
   def index
     @pro = Product.all

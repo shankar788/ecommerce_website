@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_05_100658) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_12_121116) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -69,10 +69,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_100658) do
     t.string "quantity"
     t.integer "product_id", null: false
     t.integer "user_id", null: false
-    t.integer "order_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_carts_on_order_id"
     t.index ["product_id"], name: "index_carts_on_product_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
@@ -83,6 +81,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_100658) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "demods", force: :cascade do |t|
+    t.integer "user_login_id", null: false
+    t.integer "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_demods_on_product_id"
+    t.index ["user_login_id"], name: "index_demods_on_user_login_id"
+  end
+
+  create_table "demos", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_demos_on_product_id"
+    t.index ["user_id"], name: "index_demos_on_user_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "product_id", null: false
@@ -90,6 +106,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_100658) do
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "pro_carts", force: :cascade do |t|
+    t.integer "quantity", default: 1
+    t.integer "user_login_id", null: false
+    t.integer "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_pro_carts_on_product_id"
+    t.index ["user_login_id"], name: "index_pro_carts_on_user_login_id"
+  end
+
+  create_table "product_carts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_carts_on_product_id"
+    t.index ["user_id"], name: "index_product_carts_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -112,6 +148,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_100658) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_orders", force: :cascade do |t|
+    t.string "user_id"
+    t.string "cart_id"
+    t.string "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -122,10 +166,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_100658) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "carts", "orders"
   add_foreign_key "carts", "products"
   add_foreign_key "carts", "users"
+  add_foreign_key "demods", "products"
+  add_foreign_key "demods", "user_logins"
+  add_foreign_key "demos", "products"
+  add_foreign_key "demos", "users"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "pro_carts", "products"
+  add_foreign_key "pro_carts", "user_logins"
+  add_foreign_key "product_carts", "products"
+  add_foreign_key "product_carts", "users"
   add_foreign_key "products", "categories"
 end
