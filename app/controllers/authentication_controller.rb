@@ -5,7 +5,7 @@ class AuthenticationController < ApplicationController
     @user = UserLogin.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password ])
       token = encode_token({user_login:@user.id})
-      puts token
+      session[:user] = token
       render json: {user: @user,token:token},status: :ok 
     else
       render json: {error: "got an error"}  

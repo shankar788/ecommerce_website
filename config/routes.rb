@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :categories
   resources :products
   resources :user_logins
+  
   post "/login", to: "authentication#login"
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
